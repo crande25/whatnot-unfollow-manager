@@ -2,6 +2,12 @@
   "addons": {
     "{853460fc-11ee-444b-893a-cb8bcbfa229c}": {
       "updates": [
+        {
+          "version": "1.0.1",
+          "update_link": "https://crande25.github.io/whatnot-unfollow-manager/xpi/whatnot-unfollow-manager-1.0.1.xpi",
+          "update_hash": "sha256:501e118c6752f6ffe47cca571a172b166395593e089541e7d3e577388838cc65",
+          "applications": { "gecko": { "strict_min_version": "140.0" } }
+        }
       ]
     }
   }

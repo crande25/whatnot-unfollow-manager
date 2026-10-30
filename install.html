@@ -72,16 +72,12 @@
 
   <div class="card">
     <h2>Install it</h2>
-    <p>Version 1.0.1 is waiting for Mozilla's signature, which Firefox needs before it keeps an add-on installed. The install button appears here once it's signed.</p>
-    <details>
-      <summary>Try it now, until Firefox restarts</summary>
-      <ol>
-        <li>Download <a href="https://github.com/crande25/whatnot-unfollow-manager/archive/refs/heads/main.zip">the source code</a> and extract the zip.</li>
-        <li>In Firefox, open <code>about:debugging#/runtime/this-firefox</code> and click <b>Load Temporary Add-on…</b></li>
-        <li>Pick <code>manifest.json</code> in the extracted folder.</li>
-      </ol>
-      <p class="muted">Firefox removes a temporary add-on when it quits. Your keep list stays saved, so loading it again picks up where you left off.</p>
-    </details>
+    <a class="install" href="xpi/whatnot-unfollow-manager-1.0.1.xpi">Add to Firefox</a>
+    <ol>
+      <li>Click <b>Add to Firefox</b>. Firefox asks twice: first whether this site may install add-ons, then whether to add Whatnot Unfollow Manager. Allow both.</li>
+      <li>Optional: to keep its toolbar button in view, open the Extensions menu (the puzzle-piece icon), click the gear next to Whatnot Unfollow Manager and choose <b>Pin to Toolbar</b>.</li>
+    </ol>
+    <p class="muted">Needs Firefox 140 or later on a computer. The add-on is signed by Mozilla, and Firefox installs new versions from this site by itself.</p>
   </div>
 
   <h2>Use it</h2>

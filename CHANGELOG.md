@@ -15,6 +15,7 @@ Nothing yet.
 
 ### Internal
 
+- Mozilla's signed 1.0.1 is in `xpi/whatnot-unfollow-manager-1.0.1.xpi`. `install.html` now links to it, and `updates.json` lists it with its SHA-256 hash.
 - `manifest.json` gains `update_url` (`https://crande25.github.io/whatnot-unfollow-manager/updates.json`) and `homepage_url` (the install page). The update URL has to ship in the first version people install, because an installed copy only ever checks the URL it was installed with. Mozilla signed 1.0.0 from a zip built before these keys were added, and it signs each version number only once, hence 1.0.1.
 - `manifest.json` gains `browser_specific_settings.gecko_android.strict_min_version` 142.0. Firefox for Android supports `data_collection_permissions` only from 142, and addons.mozilla.org warned about 1.0.0's lower minimum. The desktop minimum stays at 140, which keeps Firefox 140 ESR users covered.
 - `build.ps1 -Signed` compares `manifest.json` as data (parsed, with object keys sorted) instead of byte for byte. Mozilla rewrites that file when it signs, with the same content reformatted, as the signed 1.0.0 showed. Every other file still has to match byte for byte. The refusal message now says to upload the zip the script just built.

@@ -1,0 +1,2 @@
+# build.ps1 output: the zip to upload for signing. The signed files go in xpi/.
+dist/

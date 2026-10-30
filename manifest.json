@@ -1,0 +1,64 @@
+{
+  "manifest_version": 3,
+  "name": "Whatnot Unfollow Manager",
+  "short_name": "Unfollow Manager",
+  "version": "1.0.0",
+  "description": "Unfollow every account you follow on Whatnot in a few clicks, except the ones on your keep list.",
+  "homepage_url": "https://crande25.github.io/whatnot-unfollow-manager/",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "{853460fc-11ee-444b-893a-cb8bcbfa229c}",
+      "strict_min_version": "140.0",
+      "update_url": "https://crande25.github.io/whatnot-unfollow-manager/updates.json",
+      "data_collection_permissions": {
+        "required": ["none"]
+      }
+    }
+  },
+  "permissions": ["storage"],
+  "background": {
+    "scripts": ["src/background.js"]
+  },
+  "action": {
+    "default_title": "Whatnot Unfollow Manager (Alt+Shift+U)",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "commands": {
+    "_execute_action": {
+      "suggested_key": { "default": "Alt+Shift+U" },
+      "description": "Open or close the Unfollow Manager panel"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.whatnot.com/*", "https://whatnot.com/*"],
+      "js": ["src/page/bridge.js"],
+      "world": "MAIN",
+      "run_at": "document_idle"
+    },
+    {
+      "matches": ["https://www.whatnot.com/*", "https://whatnot.com/*"],
+      "js": [
+        "src/content/util.js",
+        "src/content/styles.js",
+        "src/content/store.js",
+        "src/content/api.js",
+        "src/content/runner.js",
+        "src/content/panel.js",
+        "src/content/main.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ]
+}

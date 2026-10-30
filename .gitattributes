@@ -1,0 +1,7 @@
+# Keep LF line endings in every checkout. The zip that Mozilla signs is built from these
+# files, and build.ps1 -Signed compares the signed file with them byte for byte, so the
+# same source has to produce the same bytes on every machine.
+* text=auto eol=lf
+*.png binary
+*.xpi binary
+*.zip binary

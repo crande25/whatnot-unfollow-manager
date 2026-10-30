@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Whatnot Unfollow Manager: bulk unfollow for Whatnot, with a keep list</title>
+<meta name="description" content="Free Firefox add-on for Whatnot. Unfollows every account you follow in a few clicks, except the ones on your keep list, one account at a time with pause, stop and undo.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Whatnot Unfollow Manager: bulk unfollow for Whatnot, with a keep list">
+<meta property="og:description" content="A free Firefox add-on that unfollows every account you follow on Whatnot, except the ones on your keep list.">
+<meta property="og:url" content="https://crande25.github.io/whatnot-unfollow-manager/install.html">
+<meta property="og:image" content="https://crande25.github.io/whatnot-unfollow-manager/images/preview.png">
+<meta property="og:image:width" content="1280">
+<meta property="og:image:height" content="640">
+<meta property="og:image:alt" content="The Unfollow Manager panel on Whatnot partway through a run, with kept accounts highlighted">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://crande25.github.io/whatnot-unfollow-manager/install.html">
+<link rel="icon" type="image/png" href="icons/icon32.png">
+<style>
+  :root {
+    --bg: #f6f7f9; --card: #fff; --text: #1f2937; --muted: #6b7280; --line: #e5e7eb;
+    --accent: #ffd60a; --accent-ink: #111; --link: #175cd3; --code: #f3f4f6;
+    --notice: #fffaeb; --notice-line: #fedf89;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #111318; --card: #1a1d24; --text: #e5e7eb; --muted: #9ca3af; --line: #2b303b;
+      --link: #84adff; --code: #22262f; --notice: #2a2414; --notice-line: #5c4a12;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.55 "Segoe UI", system-ui, -apple-system, Roboto, sans-serif; }
+  a { color: var(--link); }
+  main { max-width: 760px; margin: 0 auto; padding: 40px 16px 64px; }
+  .title { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
+  .title img { flex: none; width: 48px; height: 48px; }
+  h1 { margin: 0; font-size: 28px; line-height: 1.2; }
+  h2 { margin: 32px 0 10px; font-size: 17px; }
+  .card h2 { margin-top: 0; }
+  .version { margin: 2px 0 0; color: var(--muted); font-size: 13px; }
+  .lede { margin: 0 0 24px; color: var(--muted); }
+  .card { padding: 20px 22px; background: var(--card); border: 1px solid var(--line); border-radius: 12px; }
+  .notice { margin: 0 0 16px; padding: 12px 16px; background: var(--notice); border: 1px solid var(--notice-line); border-radius: 10px; }
+  ol, ul { margin: 0; padding-left: 20px; }
+  li { margin: 6px 0; }
+  .install {
+    display: inline-block; margin: 0 0 12px; padding: 10px 20px; border-radius: 8px;
+    background: var(--accent); color: var(--accent-ink); font-weight: 600; text-decoration: none;
+  }
+  .install:hover { filter: brightness(.95); }
+  kbd, code { font: 12px/1 ui-monospace, Consolas, monospace; background: var(--code); border: 1px solid var(--line); border-radius: 4px; }
+  kbd { padding: 2px 6px; border-bottom-width: 2px; }
+  code { padding: 2px 5px; }
+  details { margin-top: 14px; }
+  summary { cursor: pointer; color: var(--muted); }
+  details ol { margin-top: 8px; }
+  .muted { color: var(--muted); font-size: 13px; }
+</style>
+</head>
+<body>
+<main>
+  <div class="title">
+    <img src="icons/icon128.png" alt="" width="48" height="48">
+    <div>
+      <h1>Whatnot Unfollow Manager</h1>
+      <p class="version">Version 1.0.0 · Firefox add-on</p>
+    </div>
+  </div>
+  <p class="lede">A Firefox add-on for whatnot.com. Star the accounts you want to keep following, and it unfollows everyone else for you, one account at a time, while you watch.</p>
+
+  <p class="notice" id="not-firefox" hidden>This is an add-on for Firefox on a computer. Open this page there to install it.</p>
+
+  <div class="card">
+    <h2>Install it</h2>
+    <p>Version 1.0.0 is waiting for Mozilla's signature, which Firefox needs before it keeps an add-on installed. The install button appears here once it's signed.</p>
+    <details>
+      <summary>Try it now, until Firefox restarts</summary>
+      <ol>
+        <li>Download <a href="https://github.com/crande25/whatnot-unfollow-manager/archive/refs/heads/main.zip">the source code</a> and extract the zip.</li>
+        <li>In Firefox, open <code>about:debugging#/runtime/this-firefox</code> and click <b>Load Temporary Add-on…</b></li>
+        <li>Pick <code>manifest.json</code> in the extracted folder.</li>
+      </ol>
+      <p class="muted">Firefox removes a temporary add-on when it quits. Your keep list stays saved, so loading it again picks up where you left off.</p>
+    </details>
+  </div>
+
+  <h2>Use it</h2>
+  <ol>
+    <li>Go to <a href="https://www.whatnot.com">whatnot.com</a> and sign in.</li>
+    <li>Click the round yellow button in the bottom-left corner. The add-on's toolbar button and <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>U</kbd> open the panel too, from any tab.</li>
+    <li>The <b>Following</b> tab lists everyone you follow. Click <b>☆ Keep</b> on each account you want to keep following. To keep many at once, type in the filter box and click <b>Keep all N shown</b>.</li>
+    <li>Click <b>Unfollow N accounts</b>, then <b>Yes, unfollow</b>. Keep the tab open while it works. You can carry on browsing Whatnot in it, and Firefox asks before you close it mid-run.</li>
+  </ol>
+  <p class="muted">Before your first big run, press <b>Stop</b> after one or two accounts and check on Whatnot that they're gone. Then click <b>Reload list</b> and run it for real.</p>
+
+  <h2>The keep list</h2>
+  <ul>
+    <li>Accounts on it are never unfollowed. Each account is checked again just before it's unfollowed, so starring one mid-run still protects it.</li>
+    <li>The <b>Keep list</b> tab shows every kept account, including ones you don't follow right now. Add one by <code>@username</code> or profile link, or remove one.</li>
+    <li>Accounts are matched by Whatnot's account number, so a kept account stays kept when it changes its username.</li>
+    <li>It's saved in Firefox, survives restarts and Whatnot sign-outs, and all your Whatnot tabs share it. Firefox deletes it when you remove the add-on, so click <b>Export</b> to save a copy first. <b>Import</b> reads that file back, or a plain list with one username or profile link per line.</li>
+  </ul>
+
+  <h2>How a run works</h2>
+  <ul>
+    <li>It unfollows one account at a time with a short random pause after each, so 500 accounts take about 17 minutes at the default <b>Normal</b> speed. <b>Careful</b> is slower and <b>Fast</b> is quicker; choose in the <b>Options</b> tab.</li>
+    <li><b>Pause</b>, <b>Resume</b> and <b>Stop</b> work at any time. If a run is stopped or cut short, reload the list and start again: accounts already unfollowed are no longer on it.</li>
+    <li>If Whatnot rate-limits it or has a server error, it waits 30 seconds, then 60, then 120 before giving up on that account. It stops by itself when you're signed out, when Whatnot refuses its requests, or after 5 failures in a row.</li>
+    <li>Failed accounts are marked with the reason, and <b>Retry</b> tries them again. <b>Undo</b> in the Options tab follows the accounts from your last run again.</li>
+  </ul>
+
+  <h2>If something goes wrong</h2>
+  <ul>
+    <li><b>Not signed in to Whatnot</b>: sign in on whatnot.com, then click <b>Check again</b>.</li>
+    <li><b>The add-on could not talk to the page</b>: reload the Whatnot tab. Tabs that were open before the add-on was installed or updated need this once.</li>
+    <li><b>No round button on Whatnot</b>: check that <b>Options → Launcher</b> is on, and that the add-on may run on whatnot.com: <code>about:addons</code> → Whatnot Unfollow Manager → <b>Permissions</b>.</li>
+    <li><b>A "Performing security verification" page</b>: that's Whatnot's bot check. Let it finish, then reload.</li>
+    <li><b>Rate limits, or it stopped after several failures</b>: wait a while, switch to <b>Careful</b>, and run it again.</li>
+  </ul>
+
+  <h2>Limits</h2>
+  <ul>
+    <li>It relies on how the Whatnot website works today. If Whatnot changes it, the add-on may stop working until it's updated.</li>
+    <li>It's made for Firefox on a computer. Other browsers can't install it, and it hasn't been tried on Firefox for Android.</li>
+    <li>It changes only whom you follow. It doesn't remove followers, block anyone, or touch anything else on your account.</li>
+  </ul>
+  <p class="muted">It runs in your browser with your existing Whatnot sign-in, talks only to whatnot.com, and collects no data. Firefox checks this site once a day for a newer version. It is unofficial and not affiliated with Whatnot.</p>
+  <p class="muted">Source code, updates and issues: <a href="https://github.com/crande25/whatnot-unfollow-manager">github.com/crande25/whatnot-unfollow-manager</a>. MIT License.</p>
+</main>
+<script>
+  if (!/\bFirefox\//.test(navigator.userAgent) || /Android/.test(navigator.userAgent)) {
+    document.getElementById('not-firefox').hidden = false;
+  }
+</script>
+</body>
+</html>

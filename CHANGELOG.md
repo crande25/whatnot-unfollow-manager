@@ -4,7 +4,9 @@ All notable changes to Whatnot Unfollow Manager, newest first. The version is `v
 
 ## Unreleased
 
-Nothing yet.
+### For users
+
+- The install page and the README name the buttons in Firefox's two install prompts: **Continue to Installation**, then **Add**. The install page's tip for a missing round button now names the **Permissions and data** tab (what current Firefox calls it), and says the add-on runs in private windows only when **Run in Private Windows** is set to **Allow**. Checked against a real install from the live page in Firefox 159.
 
 ## 1.0.1 — 2026-10-30
 

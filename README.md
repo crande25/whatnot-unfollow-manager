@@ -21,7 +21,7 @@ Your keep list stays saved in Firefox, so the next clean-up is three clicks: ope
 
 ## Install and use
 
-1. Open the [install page](https://crande25.github.io/whatnot-unfollow-manager/) in Firefox, click **Add to Firefox**, and allow both of Firefox's prompts.
+1. Open the [install page](https://crande25.github.io/whatnot-unfollow-manager/) in Firefox, click **Add to Firefox**, then **Continue to Installation** and **Add** in Firefox's two prompts.
 2. On [whatnot.com](https://www.whatnot.com), signed in, click the round yellow button in the bottom-left corner.
 3. Click **☆ Keep** on the accounts to keep, then **Unfollow N accounts** and **Yes, unfollow**.
 

@@ -9,7 +9,8 @@
 #   powershell -ExecutionPolicy Bypass -File build.ps1 -Signed <the downloaded .xpi>
 # It checks that the file is this add-on at the version in manifest.json, made of
 # exactly the files here plus Mozilla's signature, and copies it to xpi\, where the
-# install page and updates.json point.
+# install page and updates.json point. Mozilla rewrites manifest.json when it signs
+# (same content, reformatted), so that file is compared as data; the rest byte for byte.
 #
 # The zip is made with Windows' tar.exe because it writes forward-slash paths;
 # Windows PowerShell 5.1's Compress-Archive writes backslashes, which Firefox and
@@ -53,6 +54,16 @@ function Read-Package([string]$Path) {
   } finally { $archive.Dispose() }
 }
 
+# Parsed JSON as one string with object keys sorted, so formatting and key order don't count.
+function ConvertTo-CanonicalJson($Value) {
+  if ($Value -is [System.Management.Automation.PSCustomObject]) {
+    $members = $Value.PSObject.Properties | Sort-Object Name | ForEach-Object { (ConvertTo-Json $_.Name) + ':' + (ConvertTo-CanonicalJson $_.Value) }
+    return '{' + ($members -join ',') + '}'
+  }
+  if ($Value -is [System.Array]) { return '[' + (($Value | ForEach-Object { ConvertTo-CanonicalJson $_ }) -join ',') + ']' }
+  ConvertTo-Json $Value -Compress
+}
+
 # 1. The zip to sign: the add-on's own files and nothing else.
 $dist = Join-Path $root 'dist'
 New-Item -ItemType Directory -Force $dist | Out-Null
@@ -75,10 +86,11 @@ if ($Signed) {
   if ($signedPackage.Manifest.version -ne $version) {
     throw "$Signed is version $($signedPackage.Manifest.version), but manifest.json is at $version."
   }
-  $different = @($built.Files.Keys | Where-Object { $signedPackage.Files[$_] -ne $built.Files[$_] })
+  $different = @($built.Files.Keys | Where-Object { $_ -ne 'manifest.json' -and $signedPackage.Files[$_] -ne $built.Files[$_] })
+  if ((ConvertTo-CanonicalJson $signedPackage.Manifest) -ne (ConvertTo-CanonicalJson $built.Manifest)) { $different += 'manifest.json' }
   $different += @($signedPackage.Files.Keys | Where-Object { $_ -notlike 'META-INF/*' -and -not $built.Files.ContainsKey($_) })
   if ($different.Count) {
-    throw "$Signed doesn't match the files here ($($different -join ', ')). Sign the zip this script builds from them."
+    throw "$Signed doesn't match the files here ($($different -join ', ')). Upload the zip this script just built, then try again."
   }
   New-Item -ItemType Directory -Force $xpiDir | Out-Null
   Copy-Item -LiteralPath $Signed -Destination (Join-Path $xpiDir "$name-$version.xpi") -Force

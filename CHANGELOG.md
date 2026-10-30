@@ -6,16 +6,29 @@ All notable changes to Whatnot Unfollow Manager, newest first. The version is `v
 
 Nothing yet.
 
+## 1.0.1 — 2026-10-30
+
+### For users
+
+- The first version offered on the install page. Firefox installs new versions from that page by itself, and the add-on's entry in Firefox's Add-ons Manager links to it. 1.0.0 was signed without these links, so it isn't offered there.
+- Nothing else changes in how the add-on works.
+
+### Internal
+
+- `manifest.json` gains `update_url` (`https://crande25.github.io/whatnot-unfollow-manager/updates.json`) and `homepage_url` (the install page). The update URL has to ship in the first version people install, because an installed copy only ever checks the URL it was installed with. Mozilla signed 1.0.0 from a zip built before these keys were added, and it signs each version number only once, hence 1.0.1.
+- `manifest.json` gains `browser_specific_settings.gecko_android.strict_min_version` 142.0. Firefox for Android supports `data_collection_permissions` only from 142, and addons.mozilla.org warned about 1.0.0's lower minimum. The desktop minimum stays at 140, which keeps Firefox 140 ESR users covered.
+- `build.ps1 -Signed` compares `manifest.json` as data (parsed, with object keys sorted) instead of byte for byte. Mozilla rewrites that file when it signs, with the same content reformatted, as the signed 1.0.0 showed. Every other file still has to match byte for byte. The refusal message now says to upload the zip the script just built.
+
 ## 1.0.0 — 2026-10-30
 
-The first release.
+The first release. Mozilla signed it, but it isn't offered on the install page because it was built before the update link was added (see 1.0.1).
 
 ### For users
 
 - Published at https://github.com/crande25/whatnot-unfollow-manager under the MIT License, with an install page at https://crande25.github.io/whatnot-unfollow-manager/. Once Mozilla has signed a version, the page installs it in one click, and Firefox keeps it up to date from there.
 - Docs: the README is written for people who find the project on GitHub and says plainly that the add-on is unofficial. The install page holds the user guide (installing, the keep list, how a run works, troubleshooting and limits), carries the same notice, and has a description and preview image for search results and link previews.
 - A Firefox add-on, for Firefox 140 or later on a computer. An earlier, unreleased build was a Chrome extension; this one doesn't load in Chrome.
-- Panel on whatnot.com that lists every account you follow and unfollows all of them except the ones on your keep list: open the panel, **Unfollow N accounts**, **Yes, unfollow**. It opens from a round launcher button (bottom-left), the toolbar button (from any tab; it opens Whatnot if needed) or Alt+Shift+U. The add-on's entry in Firefox's Add-ons Manager links to the install page.
+- Panel on whatnot.com that lists every account you follow and unfollows all of them except the ones on your keep list: open the panel, **Unfollow N accounts**, **Yes, unfollow**. It opens from a round launcher button (bottom-left), the toolbar button (from any tab; it opens Whatnot if needed) or Alt+Shift+U.
 - Keep list: ☆ Keep on each account, **Keep all N shown** for a filtered set, filter by name and by All / To unfollow / Kept, add by `@username` or profile link, remove, Export to JSON and Import (an Export file, a JSON array, or plain text with one username or link per line). Saved in the add-on's storage, so it survives restarts and is shared by all tabs.
 - Bulk runs go one account at a time with randomized pauses at Careful, Normal (default) or Fast speed. They show progress and the time left, and can be paused, resumed and stopped. Failed accounts are marked with the reason and can be retried. Firefox asks before you leave the page mid-run.
 - Rate limits and server errors back off 30 s, 60 s, then 120 s per account. A run halts when you're signed out, when Whatnot answers HTTP 403, or after 5 failures in a row.
@@ -24,7 +37,6 @@ The first release.
 
 ### Internal
 
-- `manifest.json` gains `update_url` (`https://crande25.github.io/whatnot-unfollow-manager/updates.json`) and `homepage_url` (the install page). The update URL has to ship in the first signed version, because an installed copy only ever checks the URL it was installed with.
 - `build.ps1` replaces the earlier `package.ps1`. It still builds `dist/whatnot-unfollow-manager-<version>.zip` with Windows' tar.exe, which writes forward-slash paths (Windows PowerShell 5.1's `Compress-Archive` writes backslashes, which Firefox and addons.mozilla.org reject). It now also writes:
   - `install.html` from `install.template.html`, filling in `{{VERSION}}` and `{{XPI}}` and keeping either the `<!--IF SIGNED-->` or the `<!--IF UNSIGNED-->` block;
   - `updates.json` from the signed files in `xpi/`, with a SHA-256 `update_hash` for each.

@@ -6,7 +6,7 @@
 #     (a signed-in account with 12 follows, one that always fails) and runs a
 #     full bulk unfollow, retry and reload. No real account is touched.
 #
-#   powershell -ExecutionPolicy Bypass -File dev\firefox-test.ps1 [-AddonPath dist\whatnot-unfollow-manager-1.0.0.zip]
+#   powershell -ExecutionPolicy Bypass -File dev\firefox-test.ps1 [-AddonPath dist\whatnot-unfollow-manager-<version>.zip]
 #
 # Talks to Firefox over Marionette (its built-in remote protocol); needs only
 # Firefox and Windows PowerShell 5.1.

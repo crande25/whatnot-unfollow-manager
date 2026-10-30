@@ -57,7 +57,7 @@ MIT. See [LICENSE](LICENSE).
 | `index.html` | Sends visitors from the Pages root to `install.html`. |
 | `images/preview.png` | The picture for link previews and this README, made with demo accounts. |
 | `dev/firefox-test.ps1` | Smoke test in a throwaway headless Firefox. |
-| `.gitattributes` | Keeps LF line endings in every checkout, so the zip built from a clone matches the signed file byte for byte. |
+| `.gitattributes` | Keeps LF line endings in every checkout, so a clone builds the same bytes Mozilla signed (only `manifest.json` gets reformatted in signing). |
 | `.nojekyll` | Makes GitHub Pages serve the files as they are. Jekyll would read the `{{…}}` placeholders in the Markdown files as template tags. |
 | `CHANGELOG.md` | Every change, newest first. |
 
@@ -67,8 +67,8 @@ MIT. See [LICENSE](LICENSE).
 2. Run the smoke test (see below).
 3. Bump `version` in `manifest.json`, and move the changelog's Unreleased entries under that version.
 4. Build: `powershell -ExecutionPolicy Bypass -File build.ps1`. It writes `dist\whatnot-unfollow-manager-<version>.zip`.
-5. Get it signed: on the [Add-on Developer Hub](https://addons.mozilla.org/developers/), upload the zip as a new version, distributed **On your own** (the very first upload is **Submit a New Add-on**). Mozilla checks and signs it, usually within minutes. Download the signed `.xpi`.
-6. Take it in: `powershell -ExecutionPolicy Bypass -File build.ps1 -Signed <the downloaded .xpi>`. It checks that the file is this add-on, at this version, made of exactly these files plus Mozilla's signature. Then it copies it to `xpi/` and rebuilds `install.html` and `updates.json`.
+5. Get it signed: on the [Add-on Developer Hub](https://addons.mozilla.org/developers/), choose **Upload a New Version** and upload the zip that step 4 just made, distributed **On your own**. The source code question is answered No: nothing in the add-on is generated or minified. Mozilla checks and signs it, usually within minutes. Download the signed `.xpi` from **Manage Status & Versions** by clicking the version.
+6. Take it in: `powershell -ExecutionPolicy Bypass -File build.ps1 -Signed <the downloaded .xpi>`. It checks that the file is this add-on, at this version, made of exactly these files plus Mozilla's signature. Mozilla reformats `manifest.json` when it signs, so that file is compared by content. Then it copies the file to `xpi/` and rebuilds `install.html` and `updates.json`.
 7. Commit and push. Pages publishes the new install page and update manifest, and installed copies update themselves within a day.
 
 Mozilla signs each version number only once, so any change after an upload needs a new version number. Keep `update_url` in `manifest.json` as it is (the build checks it): an installed copy only ever checks the URL it was installed with. On Windows, use Windows PowerShell 5.1 as above. On other systems, `pwsh build.ps1` with PowerShell 7 should work, but it hasn't been tried there.
@@ -109,9 +109,8 @@ Export files look like `{ format: "whatnot-unfollow-manager/keep-list", version:
 
 ```
 powershell -ExecutionPolicy Bypass -File dev\firefox-test.ps1
-powershell -ExecutionPolicy Bypass -File dev\firefox-test.ps1 -AddonPath dist\whatnot-unfollow-manager-1.0.0.zip
 ```
 
-It installs the add-on as a temporary add-on and checks the panel on whatnot.com while signed out, including one real, read-only account lookup. Then, inside the test page, it replaces `fetch` for `/services/graphql/` with a fake endpoint (12 follows, one that always fails) and runs a full bulk unfollow, a retry and a reload. If Whatnot's bot check stops the test browser, wait a few minutes and run it again.
+Add `-AddonPath dist\whatnot-unfollow-manager-<version>.zip` to test the built zip instead of this folder. It installs the add-on as a temporary add-on and checks the panel on whatnot.com while signed out, including one real, read-only account lookup. Then, inside the test page, it replaces `fetch` for `/services/graphql/` with a fake endpoint (12 follows, one that always fails) and runs a full bulk unfollow, a retry and a reload. If Whatnot's bot check stops the test browser, wait a few minutes and run it again.
 
 To check a change against a real account, start a run and press **Stop** after the first account, then look it up on Whatnot.
